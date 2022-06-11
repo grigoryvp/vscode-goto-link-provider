@@ -6,6 +6,7 @@
   "icon": "icon.png",
 	"version": "0.1.0",
   "publisher": "grigoryvp",
+  "license": "SEE LICENSE IN README.md",
 	"engines": {
 		"vscode": "^1.0.0"
 	},
