@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "out": true
+    },
+    "search.exclude": {
+        "out": true
+    },
+    // tasks as npm scripts
+    "typescript.tsc.autoDetect": "off"
+}
