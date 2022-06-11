@@ -5,6 +5,7 @@ import * as vscode from "vscode";
 
 
 const PREFIX = "goto://";
+const HISTORY_KEY = 'file-history';
 
 // From MDN
 function escapeRegExp(v: string) {
@@ -115,6 +116,20 @@ export function activate(context: vscode.ExtensionContext) {
     }
   }));
 
+  vscode.window.onDidChangeActiveTextEditor(e => {
+    if (!e) return;
+    if (!e.document) return;
+    const filePath = e.document.fileName;
+    let history: string[] | undefined = context.globalState.get(HISTORY_KEY);
+    if (!Array.isArray(history)) history = [];
+    // file path changed?
+    if (history[history.length - 1] != filePath) {
+      history.push(filePath);
+      if (history.length > 100) history = history.slice(-100);
+      context.globalState.update(HISTORY_KEY, history);
+    }
+  });
+
   const openCmdName = "extension.goto-link-provider.open";
   dispose(vscode.commands.registerCommand(openCmdName, (argmap) => {
     if (!argmap) return;
@@ -154,6 +169,22 @@ export function activate(context: vscode.ExtensionContext) {
         }
       });
     });
+  }));
+
+  const backCmdName = "extension.goto-link-provider.back";
+  dispose(vscode.commands.registerCommand(backCmdName, () => {
+    const history = context.globalState.get(HISTORY_KEY);
+    if (Array.isArray(history) && history.length > 1) {
+      //  Current file.
+      history.pop();
+      //  Previous file
+      const filePath = history[history.length - 1];
+      context.globalState.update(HISTORY_KEY, history);
+      const uri = vscode.Uri.file(filePath);
+      vscode.workspace.openTextDocument(uri).then(doc => {
+        vscode.window.showTextDocument(doc);
+      });
+    }
   }));
 }
 

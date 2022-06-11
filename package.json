@@ -4,7 +4,7 @@
   "description": "Provides a 'goto://' link for advanced file navigation",
   "repository": "https://github.com/grigoryvp/vscode-goto-link-provider",
   "icon": "icon.png",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "publisher": "grigoryvp",
   "license": "SEE LICENSE IN README.md",
   "engines": {
@@ -17,6 +17,14 @@
     "*"
   ],
   "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "goto-link-provider.back",
+        "title": "Open editor that was active before following a link"
+      }
+    ]
+  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
