@@ -17,14 +17,6 @@
     "*"
   ],
   "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "goto-link-provider.open",
-        "title": "Open deep link with goto-link-provider"
-      }
-    ]
-  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
