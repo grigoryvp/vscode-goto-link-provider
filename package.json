@@ -4,7 +4,7 @@
   "description": "Provides a 'goto://' link for advanced file navigation",
   "repository": "https://github.com/grigoryvp/vscode-goto-link-provider",
   "icon": "icon.png",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "publisher": "grigoryvp",
   "license": "SEE LICENSE IN README.md",
   "engines": {

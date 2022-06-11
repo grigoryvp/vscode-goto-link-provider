@@ -1,6 +1,7 @@
 import { promisify } from "util";
 import { exec } from "child_process";
 import * as path from "path";
+import * as fs from "fs";
 import * as vscode from "vscode";
 
 
@@ -75,10 +76,20 @@ async function linkFromText(
     );
   }
   else {
-    //  If no anchor like [foo#bar] or foo#bar[] is specified, use
-    //  normal file //  uri so VSCode will ask to create a file if
-    //  it does not exists.
-    return new vscode.DocumentLink(range, vscode.Uri.file(filepath));
+    try {
+      await promisify(fs.stat)(filepath);
+      // Open existing file reusing current editor tab if possible
+      return new vscode.DocumentLink(range,
+        vscode.Uri.parse(`command:extension.goto-link-provider.open?${
+          encodeURIComponent(JSON.stringify({filepath}))
+        }`)
+      );
+    } catch(e) {
+      // If no anchor is specified use file:// uri so VSCode will ask
+      // to create a file if it does not exists. This will use a new editor
+      // tab.
+      return new vscode.DocumentLink(range, vscode.Uri.file(filepath));
+    }
   }
 }
 
@@ -139,6 +150,7 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.window.showTextDocument(doc).then(() => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) return;
+        if (!Array.isArray(anchors)) return;
         let text = editor.document.getText().toLowerCase();
         let lastFoundIdx = null;
         let lastFoundSize = 0;
