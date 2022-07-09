@@ -29,7 +29,7 @@ async function linkFromText(
   let accumulated = "";
   for(let pos = 0; pos < linkText.length; pos ++) {
     const char = linkText[pos];
-    if (char == "`") { 
+    if (char == "`") {
       isEscape = ! isEscape;
       if (accumulated.length && !isEscape) {
         if (target == prefixes) {
@@ -66,7 +66,11 @@ async function linkFromText(
   }
 
   const range = new vscode.Range(doc.positionAt(begin), doc.positionAt(end));
-  const filepath = path.join(...prefixes);
+  let filepath = path.join(...prefixes);
+  // Try to resolve location of relative path.
+  if (filepath[0] !== '/') {
+    filepath = path.resolve(path.dirname(doc.fileName), filepath);
+  }
   const anchors = suffixes;
   if (suffixes) {
     return new vscode.DocumentLink(range,
