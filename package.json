@@ -4,7 +4,7 @@
   "description": "Provides a 'goto://' link for advanced file navigation",
   "repository": "https://github.com/grigoryvp/vscode-goto-link-provider",
   "icon": "icon.png",
-  "version": "0.2.2",
+  "version": "0.3.3",
   "publisher": "grigoryvp",
   "license": "SEE LICENSE IN README.md",
   "engines": {
@@ -47,6 +47,6 @@
     "mocha": "^9.2.2",
     "open-cli": "^7.0.1",
     "typescript": "^4.5.5",
-    "vsce": "^2.9.1"
+    "vsce": "^2.9.2"
   }
 }

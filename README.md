@@ -3,6 +3,7 @@
 Link syntax:
 ```rb
 # goto://`gem dir solargraph`/lib/solargraph/api_map.ru#`def self.load`#foo
+# goto://foo/bar.py # can handle paths relative to the current file
 ```
 
 ## License
